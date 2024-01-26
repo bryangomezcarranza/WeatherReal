@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @StateObject var viewModel = WeatherViewModel()
+    
     @StateObject var locationManager = LocationManager()
     var weatherManager = NetworkServiceManager()
     @State var weather: WeatherResponse?
@@ -17,8 +19,8 @@ struct ContentView: View {
         ZStack {
             Color(.init(red: 0, green: 206, blue: 209, alpha: 1)).ignoresSafeArea(.all)
             VStack {
-                if let weather = weather {
-                    Text(weather.name)
+                if let weather = viewModel {
+                    Text(weather)
                         .font(.system(size: 30, weight: .bold, design: .rounded))
                     
                     VStack {
@@ -64,7 +66,7 @@ struct ContentView: View {
         .onAppear(perform: {
             print("View appeared!")
             locationManager.requestLocationPermission()
-            getData()
+            viewModel.fetchData()
         })
     }
     

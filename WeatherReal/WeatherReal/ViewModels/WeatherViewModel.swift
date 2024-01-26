@@ -13,22 +13,35 @@ class WeatherViewModel: ObservableObject {
     @Published var weather: WeatherResponse?
     
     private let locationManager = LocationManager()
-    private let weatherManager = NetworkServiceManager()
+    //private let weatherManager = NetworkServiceManager()
     
     @Published var temp: Double
+    @Published var city: String
     
     
-    init(weather: WeatherResponse? = nil, temp: Double = 0) {
+    init(weather: WeatherResponse? = nil, temp: Double = 0, city: String = "No city") {
         self.weather = weather
         self.temp = temp
+        self.city = city
     }
     
-    func fetchData(weatherManager: NetworkServiceManager = NetworkServiceManager()) async {
-        
-        if let location = locationManager.coordinates {
-            let response = try? await weatherManager.getCurrentWeather(latitute: location.latitude, longitude: location.longitude)
-            
+    func fetchData(weatherManager: NetworkServiceManager = NetworkServiceManager()) {
+        Task {
+            do {
+                if let location = locationManager.coordinates {
+                    let response = try? await weatherManager.getCurrentWeather(latitute: location.latitude, longitude: location.longitude)
+                    
+                    if let response {
+                        temp = response.main.temp
+                        city = response.name
+                    }
+                }
+            } catch  {
+                print("ERROR")
+            }
+
         }
+       
         
         // if let location = locationManager.coordinates {
         //            do {
