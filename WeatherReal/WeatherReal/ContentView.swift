@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject var locationManager = LocationManager()
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -15,6 +18,9 @@ struct ContentView: View {
                 .foregroundStyle(.tint)
             Text("Hello, world!")
         }
+        .onAppear(perform: {
+            locationManager.requestLocationPermission()
+        })
         .padding()
     }
 }
