@@ -11,7 +11,7 @@
 		5BC888642B62FF690009C27B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC888632B62FF690009C27B /* ContentView.swift */; };
 		5BC888662B62FF6F0009C27B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BC888652B62FF6F0009C27B /* Assets.xcassets */; };
 		5BC888692B62FF6F0009C27B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BC888682B62FF6F0009C27B /* Preview Assets.xcassets */; };
-		5BC888712B6318CE0009C27B /* WeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC888702B6318CE0009C27B /* WeatherRequest.swift */; };
+		5BC888712B6318CE0009C27B /* WeatherResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC888702B6318CE0009C27B /* WeatherResponse.swift */; };
 		5BC888752B631CF10009C27B /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC888742B631CF10009C27B /* LocationManager.swift */; };
 		5BC888772B631D0B0009C27B /* NetworkServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC888762B631D0B0009C27B /* NetworkServiceManager.swift */; };
 /* End PBXBuildFile section */
@@ -22,7 +22,7 @@
 		5BC888632B62FF690009C27B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5BC888652B62FF6F0009C27B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BC888682B62FF6F0009C27B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		5BC888702B6318CE0009C27B /* WeatherRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRequest.swift; sourceTree = "<group>"; };
+		5BC888702B6318CE0009C27B /* WeatherResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherResponse.swift; sourceTree = "<group>"; };
 		5BC888742B631CF10009C27B /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5BC888762B631D0B0009C27B /* NetworkServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -79,7 +79,7 @@
 		5BC8886F2B6318B00009C27B /* Response */ = {
 			isa = PBXGroup;
 			children = (
-				5BC888702B6318CE0009C27B /* WeatherRequest.swift */,
+				5BC888702B6318CE0009C27B /* WeatherResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -172,7 +172,7 @@
 			files = (
 				5BC888752B631CF10009C27B /* LocationManager.swift in Sources */,
 				5BC888772B631D0B0009C27B /* NetworkServiceManager.swift in Sources */,
-				5BC888712B6318CE0009C27B /* WeatherRequest.swift in Sources */,
+				5BC888712B6318CE0009C27B /* WeatherResponse.swift in Sources */,
 				5BC888642B62FF690009C27B /* ContentView.swift in Sources */,
 				5BC888622B62FF690009C27B /* WeatherRealApp.swift in Sources */,
 			);

@@ -15,7 +15,7 @@ public struct WeatherResponse: Codable {
     var name: String
 }
 public struct WeatherCordinateResponse: Codable {
-    var long: Double
+    var lon: Double
     var lat: Double
 }
 
