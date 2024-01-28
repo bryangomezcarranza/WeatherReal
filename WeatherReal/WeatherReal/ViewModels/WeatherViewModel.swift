@@ -6,51 +6,41 @@
 //
 
 import Foundation
-import CoreLocation
-import SwiftUI
 
-class WeatherViewModel: ObservableObject {
-    @Published var weather: WeatherResponse?
+@MainActor
+final class WeatherViewModel: ObservableObject {
+    
+    @Published var place: String = "- -"
+    @Published var temp: Double = 0.0
+    @Published var weatherDescription: String = "- -"
+    
+    let todaysDate: String = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE d MMMM"
+        return dateFormatter.string(from: Date())
+    }()
     
     private let locationManager = LocationManager()
-    //private let weatherManager = NetworkServiceManager()
+    private let weatherManager = NetworkServiceManager()
     
-    @Published var temp: Double
-    @Published var city: String
-    
-    
-    init(weather: WeatherResponse? = nil, temp: Double = 0, city: String = "No city") {
-        self.weather = weather
-        self.temp = temp
-        self.city = city
-    }
-    
-    func fetchData(weatherManager: NetworkServiceManager = NetworkServiceManager()) {
+    func fetchCurrentLocationWeatherDetails() {
         Task {
             do {
-                if let location = locationManager.coordinates {
-                    let response = try? await weatherManager.getCurrentWeather(latitute: location.latitude, longitude: location.longitude)
-                    
-                    if let response {
-                        temp = response.main.temp
-                        city = response.name
-                    }
-                }
-            } catch  {
-                print("ERROR")
+                let location = locationManager.coordinates
+                let response = try await weatherManager.getCurrentWeather(latitute: location?.latitude ?? 0.0, longitude: location?.longitude ?? 0.0)
+                
+                place = response.name
+                temp = response.main.temp
+                weatherDescription = response.weather.first?.description ?? "- -"
+                
+                
+            } catch {
+                print("Error fetching weather data")
             }
-
+            
         }
-       
-        
-        // if let location = locationManager.coordinates {
-        //            do {
-        //                weather = try await weatherManager.getCurrentWeather(latitute: location.latitude , longitude: location.longitude)
-        //
-        //                print("Data was able to be retrieved")
-        //            } catch {
-        //                print("Data was not able to ")
-        //            }
-        //        }
     }
+    
 }
+
+                                                                     

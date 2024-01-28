@@ -9,22 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var viewModel = WeatherViewModel()
-    
+    @StateObject private var viewModel = WeatherViewModel()
     @StateObject var locationManager = LocationManager()
-    var weatherManager = NetworkServiceManager()
-    @State var weather: WeatherResponse?
+    
+    
+    @State var state: String?
     
     var body: some View {
         ZStack {
             Color(.init(red: 0, green: 206, blue: 209, alpha: 1)).ignoresSafeArea(.all)
             VStack {
-                if let weather = viewModel {
-                    Text(weather)
+                Text(viewModel.place)
                         .font(.system(size: 30, weight: .bold, design: .rounded))
                     
                     VStack {
-                        Text("Friday 19 January")
+                        Text(viewModel.todaysDate)
                             .font(.system(size: 12))
                             .foregroundStyle(.white)
                             .padding(.all, 8)
@@ -33,12 +32,12 @@ struct ContentView: View {
                                     .foregroundColor(Color.black)
                             )
                         
-                        Text(weather.weather.first?.main ?? "")
+                        Text(viewModel.weatherDescription)
                             .bold()
                     }
                     
                     HStack(alignment: .top) {
-                        Text(String(Int(weather.main.temp.rounded())))
+                        Text(String(Int(viewModel.temp.rounded())))
                             .font(.system(size: 200, weight: .regular))
                         Image(systemName: "circle")
                             .resizable()
@@ -62,25 +61,11 @@ struct ContentView: View {
                     Spacer()
                 }
             }
-        }
+        
         .onAppear(perform: {
-            print("View appeared!")
             locationManager.requestLocationPermission()
-            viewModel.fetchData()
+            viewModel.fetchCurrentLocationWeatherDetails()
         })
-    }
-    
-    func getData() {
-        Task {
-            if let location = locationManager.coordinates {
-                do {
-                    weather = try await weatherManager.getCurrentWeather(latitute: location.latitude , longitude: location.longitude)
-                    print("GOT THE DATA")
-                } catch {
-                    print("did not work")
-                }
-            }
-        }
     }
     
     func descriptionBlock(image: String, text: String) -> some View {
