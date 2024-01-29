@@ -24,7 +24,7 @@ struct Main: View {
                 story in GeometryReader { geo in
                     ZStack {
                         LinearGradient(gradient: Gradient(colors: [Color("top"), story.color]), startPoint: .top, endPoint: .bottomTrailing)
-                           // .cornerRadius(10) // You can add corner radious.. 
+                        // .cornerRadius(10) // You can add corner radious..
                         
                         Image(story.story)
                             .resizable()
@@ -74,9 +74,9 @@ struct Main: View {
     }
     
  func getAngle(xOffset: CGFloat) -> Double  {
-        let tempAngle = xOffset / (width / 2)
+        let temporaryAngle = xOffset / (width / 2)
         let rotationDegree: CGFloat = 25
-        return Double(tempAngle * rotationDegree)
+        return Double(temporaryAngle * rotationDegree)
     }
                                    
 }

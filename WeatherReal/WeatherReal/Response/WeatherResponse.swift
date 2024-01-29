@@ -12,6 +12,7 @@ public struct WeatherResponse: Codable {
     var weather: [Weather]
     var main: MainResponse
     var wind: WindResponse
+    var sys: SysReponse
     var name: String
 }
 public struct WeatherCordinateResponse: Codable {
@@ -33,6 +34,10 @@ public struct MainResponse: Codable {
 
 public struct WindResponse: Codable {
     var speed: Double
+}
+
+public struct SysReponse: Codable {
+    var id: Int
 }
 
 

@@ -32,4 +32,25 @@ class NetworkServiceManager {
            fatalError("Could not decode data")
         }
     }
+    
+    func fetchWeatherDetailsWithName(cityName: String) async throws -> WeatherResponse {
+        let endPoint  = baseURL + "q=\(cityName)&appid=\(apiKey)"
+        
+        guard let url = URL(string: endPoint) else { fatalError() }
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                fatalError("Invalid response")
+            }
+            
+            let decodedData = try JSONDecoder().decode(WeatherResponse.self, from: data)
+            return decodedData
+            
+        } catch {
+           fatalError("Could not decode data")
+        }
+        
+    }
 }

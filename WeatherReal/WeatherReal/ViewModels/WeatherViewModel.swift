@@ -13,6 +13,7 @@ final class WeatherViewModel: ObservableObject {
     @Published var place: String = "- -"
     @Published var temp: Double = 0.0
     @Published var weatherDescription: String = "- -"
+    @Published var weatherDataArray: [WeatherResponse] = []
     
     let todaysDate: String = {
         let dateFormatter = DateFormatter()
@@ -32,12 +33,23 @@ final class WeatherViewModel: ObservableObject {
                 place = response.name
                 temp = response.main.temp
                 weatherDescription = response.weather.first?.description ?? "- -"
-                
-                
+                // id = response.sys.id
             } catch {
                 print("Error fetching weather data")
             }
             
+        }
+    }
+    
+    func fetchCitiesWithID(cityName: String) {
+        
+        Task {
+            do {
+                let response = try await weatherManager.fetchWeatherDetailsWithName(cityName: cityName)
+                weatherDataArray.append(response)
+            } catch {
+                print("Error fetching weather data for city name")
+            }
         }
     }
     
