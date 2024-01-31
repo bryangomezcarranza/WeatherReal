@@ -38,7 +38,7 @@ class NetworkServiceManager {
         let newCityName =  trimmedCityName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         
         guard let newCityName = newCityName else { fatalError() }
-        let endPoint = baseURL + "q=\(newCityName)&appid=\(apiKey)"
+        let endPoint = baseURL + "q=\(newCityName)&appid=\(apiKey)&units=imperial"
         
         guard let url = URL(string: endPoint) else { fatalError() }
         do {

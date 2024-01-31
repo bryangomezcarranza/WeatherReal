@@ -37,13 +37,11 @@ final class WeatherViewModel: ObservableObject {
             } catch {
                 print("Error fetching weather data")
             }
-            
         }
     }
-
+    
     
     func fetchCitiesWithID(cityName: String) {
-        
         Task {
             do {
                 let response = try await weatherManager.fetchWeatherDetailsWithName(cityName: cityName)
@@ -54,7 +52,6 @@ final class WeatherViewModel: ObservableObject {
             }
         }
     }
-    
 }
 
                                                                      
