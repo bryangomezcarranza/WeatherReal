@@ -34,10 +34,13 @@ class NetworkServiceManager {
     }
     
     func fetchWeatherDetailsWithName(cityName: String) async throws -> WeatherResponse {
-        let endPoint  = baseURL + "q=\(cityName)&appid=\(apiKey)"
+        let trimmedCityName = cityName.trimmingCharacters(in: .whitespacesAndNewlines)
+        let newCityName =  trimmedCityName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        
+        guard let newCityName = newCityName else { fatalError() }
+        let endPoint = baseURL + "q=\(newCityName)&appid=\(apiKey)"
         
         guard let url = URL(string: endPoint) else { fatalError() }
-        
         do {
             let (data, response) = try await URLSession.shared.data(from: url)
             

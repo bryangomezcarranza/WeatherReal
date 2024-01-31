@@ -7,7 +7,11 @@
 
 import Foundation
 
-public struct WeatherResponse: Codable {
+public struct WeatherResponse: Codable, Identifiable {
+    
+    // Identifiable conformance using the 'name' property as the identifier
+    public var id: String { name }
+    
     var coord: WeatherCordinateResponse
     var weather: [Weather]
     var main: MainResponse
