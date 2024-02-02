@@ -13,7 +13,11 @@ final class WeatherViewModel: ObservableObject {
     @Published var place: String = "- -"
     @Published var temp: Double = 0.0
     @Published var weatherDescription: String = "- -"
+    @Published var humidity: Double = 0.0
+    @Published var wind: Double = 0.0
+    @Published var visibility: Double = 0.0
     @Published var weatherDataArray: [WeatherResponse] = []
+    
     
     let todaysDate: String = {
         let dateFormatter = DateFormatter()
@@ -33,6 +37,9 @@ final class WeatherViewModel: ObservableObject {
                 place = response.name
                 temp = response.main.temp
                 weatherDescription = response.weather.first?.description ?? "- -"
+                humidity = response.main.humidity
+                wind = response.wind.speed
+                visibility = (response.visibility / 5280).rounded()
                 // id = response.sys.id
             } catch {
                 print("Error fetching weather data")

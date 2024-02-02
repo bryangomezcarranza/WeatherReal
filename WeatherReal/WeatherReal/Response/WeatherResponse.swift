@@ -15,6 +15,7 @@ public struct WeatherResponse: Codable, Identifiable {
     var coord: WeatherCordinateResponse
     var weather: [Weather]
     var main: MainResponse
+    var visibility: Double = 0
     var wind: WindResponse
     var sys: SysReponse
     var name: String
@@ -43,5 +44,6 @@ public struct WindResponse: Codable {
 public struct SysReponse: Codable {
     var id: Int
 }
+
 
 

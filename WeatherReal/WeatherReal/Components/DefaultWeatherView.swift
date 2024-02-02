@@ -71,9 +71,9 @@ struct DefaultWeatherView: View {
                     
                     // TODO: Make this its own view
                     HStack(spacing: 40){
-                        descriptionBlock(image: "wind", text: "Windy")
-                        descriptionBlock(image: "wind", text: "Windy")
-                        descriptionBlock(image: "wind", text: "Windy")
+                        descriptionBlock(image: "humidity", text: "Humidity", measurment: viewModel.humidity, unit: "%")
+                        descriptionBlock(image: "wind", text: "Wind", measurment: viewModel.wind, unit: "mph")
+                        descriptionBlock(image: "eye", text: "Visibility", measurment: viewModel.visibility, unit: "mi")
                     }
                     .foregroundColor(.white)
                     .padding(.all, 32)
@@ -94,12 +94,13 @@ struct DefaultWeatherView: View {
         }
     }
     
-    func descriptionBlock(image: String, text: String) -> some View {
+    func descriptionBlock(image: String, text: String, measurment: Double, unit: String = "") -> some View {
         VStack {
             Image(systemName: image)
                 .resizable()
                 .frame(width: 30, height: 30)
-            Text(text)
+            Text("\(measurment) " + unit).bold()
+            Text(text).font(.system(size: 8))
         }
     }
     

@@ -51,10 +51,17 @@ struct WeatherView: View {
                     }
                     
                     // TODO: Make this its own view
+                    
+                   
+                    
                     HStack(spacing: 40){
-                        descriptionBlock(image: "wind", text: "Windy")
-                        descriptionBlock(image: "wind", text: "Windy")
-                        descriptionBlock(image: "wind", text: "Windy")
+                        
+                        let visibilityInFt = cityWeather.visibility
+                        let visibilityInMiles = (cityWeather.visibility / 5280).rounded()
+                        
+                        descriptionBlock(image: "humidity", text: "Humidity", measurment: cityWeather.main.humidity, unit: "%")
+                        descriptionBlock(image: "wind", text: "Wind", measurment: cityWeather.wind.speed, unit: "mph")
+                        descriptionBlock(image: "eye", text: "Visibility", measurment: visibilityInMiles, unit: "mi")
                     }
                     .foregroundColor(.white)
                     .padding(.all, 32)
@@ -71,12 +78,13 @@ struct WeatherView: View {
         }
     }
     
-    func descriptionBlock(image: String, text: String) -> some View {
+    func descriptionBlock(image: String, text: String, measurment: Double, unit: String = "") -> some View {
         VStack {
             Image(systemName: image)
                 .resizable()
                 .frame(width: 30, height: 30)
-            Text(text)
+            Text("\(measurment) " + unit).bold()
+            Text(text).font(.system(size: 8))
         }
     }
     
@@ -88,5 +96,5 @@ struct WeatherView: View {
 }
 
 #Preview {
-    WeatherView(cityWeather:  WeatherResponse(coord: WeatherCordinateResponse.init(lon: 0.0, lat: 0.0), weather: [Weather(id: 0.0, main: "", description: "", icon: "")], main: MainResponse(temp: 0.0, humidity: 0.0), wind: WindResponse(speed: 0.0), sys: SysReponse(id: 0), name: "") , viewModel: WeatherViewModel())
+    WeatherView(cityWeather:  WeatherResponse(coord: WeatherCordinateResponse.init(lon: 0.0, lat: 0.0), weather: [Weather(id: 0.0, main: "", description: "", icon: "")], main: MainResponse(temp: 0.0, humidity: 0.0), visibility: 10, wind: WindResponse(speed: 0.0), sys: SysReponse(id: 0), name: "") , viewModel: WeatherViewModel())
 }
