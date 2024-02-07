@@ -13,6 +13,8 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
     
     @Published var coordinates: CLLocationCoordinate2D?
     @Published var authorizationStatus : CLAuthorizationStatus = .notDetermined
+    @Published var locationGranted: Bool = false
+
     
     public override init() {
         super.init()
@@ -27,7 +29,7 @@ public class LocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
     
     public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         authorizationStatus = manager.authorizationStatus
-        
+        locationGranted = authorizationStatus == .authorizedWhenInUse
         switch authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
             print("Access authorized.")

@@ -13,11 +13,13 @@ struct WeatherView: View {
     var viewModel: WeatherViewModel
     var width = UIScreen.main.bounds.width
     
+    @State private var randomBackgroundColor: Color = Color.random()
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                
-                Color(red: 245 / 255, green: 245 / 255, blue: 245 / 255).ignoresSafeArea(.all)
+                let description = cityWeather.weather.first?.description
+                determineBackground(description: description!).ignoresSafeArea(.all)
                 
                 VStack {
                     Spacer()
@@ -57,7 +59,7 @@ struct WeatherView: View {
                     HStack(spacing: 40){
                         
                         let visibilityInFt = cityWeather.visibility
-                        let visibilityInMiles = (cityWeather.visibility / 5280).rounded()
+                        let visibilityInMiles = (visibilityInFt / 5280).rounded()
                         
                         descriptionBlock(image: "humidity", text: "Humidity", measurment: cityWeather.main.humidity, unit: "%")
                         descriptionBlock(image: "wind", text: "Wind", measurment: cityWeather.wind.speed, unit: "mph")
@@ -92,6 +94,32 @@ struct WeatherView: View {
         let temporaryAngle = xOffset / (width / 2)
         let rotationDegree: CGFloat = 25
         return Double(temporaryAngle * rotationDegree)
+    }
+    
+    func determineBackground(description: String) ->  Color? {
+        switch description {
+        case  "clear sky":
+            return  WeatherType.clearSky.backgroundImage
+        case "few clouds":
+            return  WeatherType.fewClouds.backgroundImage
+        case "rain":
+            return  WeatherType.rain.backgroundImage
+        case "thunderstorm":
+            return  WeatherType.thunderstorm.backgroundImage
+        case "snow":
+            return  WeatherType.snow.backgroundImage
+        case "mist":
+            return  WeatherType.mist.backgroundImage
+        case "shower rain":
+            return  WeatherType.showerRain.backgroundImage
+        case "broken clouds":
+            return  WeatherType.brokenClouds.backgroundImage
+        case "scattered clouds":
+            return  WeatherType.scatteredClouds.backgroundImage
+        default:
+            return randomBackgroundColor
+
+        }
     }
 }
 

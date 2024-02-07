@@ -13,12 +13,15 @@ struct DefaultWeatherView: View {
     @ObservedObject var locationManager = LocationManager()
     @Binding var isSheetPresented: Bool
     
+    @State private var currentWeatherType: WeatherType?
+    @State private var randomBackgroundColor: Color = Color.random()
+    
     var width = UIScreen.main.bounds.width
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                Color(red: 245 / 255, green: 245 / 255, blue: 245 / 255).ignoresSafeArea(.all)
+                determineBackground(description: viewModel.weatherDescription).ignoresSafeArea(.all)
                 VStack {
                     Spacer()
                     HStack(alignment: .center) {
@@ -35,13 +38,13 @@ struct DefaultWeatherView: View {
                        
 
                         Spacer()
-
                         // Title in the middle
                         Text(viewModel.place)
                             .font(.system(size: 40, weight: .bold, design: .rounded))
 
                         Spacer()
-                        Spacer()
+                        Text("      ")
+                            .font(.system(size: 40, weight: .bold, design: .rounded))
                     }
                     
                     
@@ -86,8 +89,13 @@ struct DefaultWeatherView: View {
                 }
             }
             .onAppear(perform: {
+                
+                //if locationManager.locationGranted {
+                  
+                //}
                 locationManager.requestLocationPermission()
                 viewModel.fetchCurrentLocationWeatherDetails()
+                
             })
             .frame(width: geo.frame(in: .global).width, height: geo.frame(in: .global).height)
             .rotation3DEffect(Angle(degrees: getAngle(xOffset: geo.frame(in: .global).minX)), axis: (x: 0.0, y: 1.0, z: 0.0), anchor: geo.frame(in: .global).minX > 0 ? .leading : .trailing, perspective: 2.5)
@@ -109,8 +117,35 @@ struct DefaultWeatherView: View {
         let rotationDegree: CGFloat = 25
         return Double(temporaryAngle * rotationDegree)
     }
+    
+   // @MainActor
+    func determineBackground(description: String) ->  Color? {
+        switch description {
+        case  "clear sky":
+            return  WeatherType.clearSky.backgroundImage
+        case "few clouds":
+            return  WeatherType.fewClouds.backgroundImage
+        case "rain":
+            return  WeatherType.rain.backgroundImage
+        case "thunderstorm":
+            return  WeatherType.thunderstorm.backgroundImage
+        case "snow":
+            return  WeatherType.snow.backgroundImage
+        case "mist":
+            return  WeatherType.mist.backgroundImage
+        case "shower rain":
+            return  WeatherType.showerRain.backgroundImage
+        case "broken clouds":
+            return  WeatherType.brokenClouds.backgroundImage
+        case "scattered clouds":
+            return  WeatherType.scatteredClouds.backgroundImage
+        default:
+            return randomBackgroundColor
+
+        }
+    }
 }
 
 #Preview {
-    DefaultWeatherView(viewModel: WeatherViewModel(), isSheetPresented: .constant(false))
+    DefaultWeatherView(viewModel: WeatherViewModel(), isSheetPresented: .constant(true))
 }

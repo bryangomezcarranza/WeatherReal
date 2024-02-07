@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SwiftUI
+
 
 @MainActor
 final class WeatherViewModel: ObservableObject {
@@ -17,7 +19,6 @@ final class WeatherViewModel: ObservableObject {
     @Published var wind: Double = 0.0
     @Published var visibility: Double = 0.0
     @Published var weatherDataArray: [WeatherResponse] = []
-    
     
     let todaysDate: String = {
         let dateFormatter = DateFormatter()
@@ -40,7 +41,6 @@ final class WeatherViewModel: ObservableObject {
                 humidity = response.main.humidity
                 wind = response.wind.speed
                 visibility = (response.visibility / 5280).rounded()
-                // id = response.sys.id
             } catch {
                 print("Error fetching weather data")
             }
