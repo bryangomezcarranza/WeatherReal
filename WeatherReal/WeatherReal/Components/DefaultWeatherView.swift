@@ -9,12 +9,14 @@ import SwiftUI
 
 struct DefaultWeatherView: View {
     
-    var viewModel: WeatherViewModel
+    @ObservedObject var viewModel: WeatherViewModel
     @ObservedObject var locationManager = LocationManager()
+    
     @Binding var isSheetPresented: Bool
     
     @State private var currentWeatherType: WeatherType?
     @State private var randomBackgroundColor: Color = Color.random()
+    @State private var animate = false
     
     var width = UIScreen.main.bounds.width
     
@@ -35,13 +37,12 @@ struct DefaultWeatherView: View {
                                 .padding(.leading)
                         }
                         .frame(alignment: .leading)
-                       
-
+                        
+                        
                         Spacer()
-                        // Title in the middle
                         Text(viewModel.place)
                             .font(.system(size: 40, weight: .bold, design: .rounded))
-
+                        
                         Spacer()
                         Text("      ")
                             .font(.system(size: 40, weight: .bold, design: .rounded))
@@ -66,10 +67,16 @@ struct DefaultWeatherView: View {
                     HStack(alignment: .top) {
                         Text(String(Int(viewModel.temp.rounded())))
                             .font(.system(size: 200, weight: .bold))
+                            .offset(y: viewModel.animateStates[0] ?? false ? 0 : 200)
+                            .opacity(viewModel.animateStates[0] ?? false ? 1.0 : 0.2)
+                            .animation(.spring().speed(0.8), value: viewModel.animateStates[0])
                         Image(systemName: "circle")
                             .resizable()
                             .frame(width: 30, height: 30)
                             .bold()
+                            .offset(x: viewModel.animateStates[0] ?? false ? 0 : -200)
+                            .opacity(viewModel.animateStates[0] ?? false ? 1.0 : 0.2)
+                            .animation(.spring().speed(0.8), value: viewModel.animateStates[0])
                     }
                     
                     // TODO: Make this its own view
@@ -89,13 +96,8 @@ struct DefaultWeatherView: View {
                 }
             }
             .onAppear(perform: {
-                
-                //if locationManager.locationGranted {
-                  
-                //}
                 locationManager.requestLocationPermission()
                 viewModel.fetchCurrentLocationWeatherDetails()
-                
             })
             .frame(width: geo.frame(in: .global).width, height: geo.frame(in: .global).height)
             .rotation3DEffect(Angle(degrees: getAngle(xOffset: geo.frame(in: .global).minX)), axis: (x: 0.0, y: 1.0, z: 0.0), anchor: geo.frame(in: .global).minX > 0 ? .leading : .trailing, perspective: 2.5)
@@ -118,7 +120,6 @@ struct DefaultWeatherView: View {
         return Double(temporaryAngle * rotationDegree)
     }
     
-   // @MainActor
     func determineBackground(description: String) ->  Color? {
         switch description {
         case  "clear sky":
@@ -141,7 +142,7 @@ struct DefaultWeatherView: View {
             return  WeatherType.scatteredClouds.backgroundImage
         default:
             return randomBackgroundColor
-
+            
         }
     }
 }

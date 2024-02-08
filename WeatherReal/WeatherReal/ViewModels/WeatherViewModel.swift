@@ -19,6 +19,8 @@ final class WeatherViewModel: ObservableObject {
     @Published var wind: Double = 0.0
     @Published var visibility: Double = 0.0
     @Published var weatherDataArray: [WeatherResponse] = []
+    @Published var animateStates: [Int: Bool] = [:]
+    @Published var hasAnimatedDefaultView: Bool = false
     
     let todaysDate: String = {
         let dateFormatter = DateFormatter()
@@ -58,6 +60,10 @@ final class WeatherViewModel: ObservableObject {
                 print("Error fetching weather data for city name")
             }
         }
+    }
+    
+    func resetAnimationStateForTab(_ tab: Int) {
+        animateStates[tab] = false
     }
 }
 

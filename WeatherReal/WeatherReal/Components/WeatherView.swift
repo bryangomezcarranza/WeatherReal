@@ -14,6 +14,11 @@ struct WeatherView: View {
     var width = UIScreen.main.bounds.width
     
     @State private var randomBackgroundColor: Color = Color.random()
+    @State var observer: Bool = false
+    
+    @Binding var selectedTab: Int
+    @Binding var animateStates: [Int: Bool]
+  
     
     var body: some View {
         GeometryReader { geo in
@@ -46,15 +51,19 @@ struct WeatherView: View {
                     HStack(alignment: .top) {
                         Text(String(Int(cityWeather.main.temp.rounded())))
                             .font(.system(size: 200, weight: .bold))
+                            .offset(y: animateStates[cityWeather.id] ?? false ? 0 : 200)
+                            .opacity(animateStates[cityWeather.id] ?? false ? 1.0 : 0.2)
+                            .animation(.spring().speed(0.8), value: animateStates[cityWeather.id])
                         Image(systemName: "circle")
                             .resizable()
                             .frame(width: 30, height: 30)
                             .bold()
+                            .offset(x: animateStates[cityWeather.id] ?? false ? 0 : -200)
+                            .opacity(animateStates[cityWeather.id] ?? false  ? 1.0 : 0.0)
+                            .animation(.spring().speed(0.8), value: animateStates[cityWeather.id])
                     }
                     
                     // TODO: Make this its own view
-                    
-                   
                     
                     HStack(spacing: 40){
                         
@@ -74,7 +83,10 @@ struct WeatherView: View {
                     
                     Spacer()
                 }
+            }.onAppear {
+                animateStates[cityWeather.id] = selectedTab == cityWeather.id
             }
+
             .frame(width: geo.frame(in: .global).width, height: geo.frame(in: .global).height)
             .rotation3DEffect(Angle(degrees: getAngle(xOffset: geo.frame(in: .global).minX)), axis: (x: 0.0, y: 1.0, z: 0.0), anchor: geo.frame(in: .global).minX > 0 ? .leading : .trailing, perspective: 2.5)
         }
@@ -124,5 +136,5 @@ struct WeatherView: View {
 }
 
 #Preview {
-    WeatherView(cityWeather:  WeatherResponse(coord: WeatherCordinateResponse.init(lon: 0.0, lat: 0.0), weather: [Weather(id: 0.0, main: "", description: "", icon: "")], main: MainResponse(temp: 0.0, humidity: 0.0), visibility: 10, wind: WindResponse(speed: 0.0), sys: SysReponse(id: 0), name: "") , viewModel: WeatherViewModel())
+    WeatherView(cityWeather:  WeatherResponse(id: 0, coord: WeatherCordinateResponse.init(lon: 0.0, lat: 0.0), weather: [Weather(id: 0.0, main: "", description: "", icon: "")], main: MainResponse(temp: 0.0, humidity: 0.0), visibility: 10, wind: WindResponse(speed: 0.0), sys: SysReponse(id: 0), name: "") , viewModel: WeatherViewModel(), selectedTab: .constant(0), animateStates: .constant([0:true]))
 }
