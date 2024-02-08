@@ -16,39 +16,49 @@ struct AddPlaceView: View {
     @Binding var isSheetPresented: Bool
     
     var body: some View {
-        VStack {
-            Text("Add New City")
-                .font(.title)
-                .padding()
-            
-            // Your search bar here
-            TextField("Enter city name", text: $newCity)
-                .padding()
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .textInputAutocapitalization(.never)
-            
-            // Your add button here
-            Button(action: {
-                // Perform the action to add the city
-                // You can use the newCity value here
-            
-            viewModel.fetchCitiesWithID(cityName: newCity)
-            isSheetPresented = false
-
-            }) {
-                Text("Add")
-                    .padding()
-                    .foregroundColor(.white)
-                    .background(Color.blue)
-                    .cornerRadius(8)
-            }
-            
-            Spacer()
-        }
-        .padding()
-    }
-}
-
+           VStack {
+               HStack {
+                   Spacer()
+                   Button(action: {
+                       // Dismiss the sheet
+                       isSheetPresented = false
+                   }) {
+                       Image(systemName: "xmark")
+                           .foregroundColor(.black)
+                   }
+               }
+               Text("Search for City")
+                   .font(.title)
+                   .bold()
+                   .padding()
+               
+               // Your search bar here
+               TextField("City name", text: $newCity)
+                   .padding()
+                   .textFieldStyle(RoundedBorderTextFieldStyle())
+                   .textInputAutocapitalization(.words)
+               
+               // Your add button here
+               Button(action: {
+                   // Perform the action to add the city
+                   // You can use the newCity value here
+                   
+                   viewModel.fetchCitiesWithID(cityName: newCity)
+                   isSheetPresented = false
+                   
+               }) {
+                   Text("Add")
+                       .padding()
+                       .foregroundColor(.white)
+                       .background(Color.black)
+                       .cornerRadius(20)
+               }
+               
+               Spacer()
+           }
+           .padding()
+       }
+   }
 
 #Preview {
     AddPlaceView(viewModel: WeatherViewModel(), isSheetPresented: .constant(false))

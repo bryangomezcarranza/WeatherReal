@@ -49,6 +49,7 @@ struct FinalView: View {
         .ignoresSafeArea()
         .fullScreenCover(isPresented: $isSheetPresented) {
             AddPlaceView(viewModel: viewModel, isSheetPresented: $isSheetPresented)
+                .presentationBackground(.ultraThinMaterial)
         }
     }
 }
