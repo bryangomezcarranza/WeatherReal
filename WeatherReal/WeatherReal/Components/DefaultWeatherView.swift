@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DefaultWeatherView: View {
     
-    @ObservedObject var viewModel: WeatherViewModel
+    var viewModel: WeatherViewModel
     @ObservedObject var locationManager = LocationManager()
     
     @Binding var isSheetPresented: Bool
@@ -97,7 +97,11 @@ struct DefaultWeatherView: View {
             }
             .onAppear(perform: {
                 locationManager.requestLocationPermission()
-                viewModel.fetchCurrentLocationWeatherDetails()
+                // TODO: Temp solution to avoid initial crash
+                // Figure out how to fetch location details only after user has allow permission.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    viewModel.fetchCurrentLocationWeatherDetails()
+                }
             })
             .frame(width: geo.frame(in: .global).width, height: geo.frame(in: .global).height)
             .rotation3DEffect(Angle(degrees: getAngle(xOffset: geo.frame(in: .global).minX)), axis: (x: 0.0, y: 1.0, z: 0.0), anchor: geo.frame(in: .global).minX > 0 ? .leading : .trailing, perspective: 2.5)

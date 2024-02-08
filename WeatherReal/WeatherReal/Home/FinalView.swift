@@ -32,16 +32,18 @@ struct FinalView: View {
             .background(Color.black.edgesIgnoringSafeArea(.all))
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .onChange(of: selectedTab) { newTab in
+                // Needed to reset animation when coming back to this specific tab view
                 viewModel.resetAnimationStateForTab(0)
+                //animateStates[viewModel.weatherDataArray[].id] = false
                 if newTab == 0 {
-                        viewModel.animateStates[newTab] = true
+                    viewModel.animateStates[newTab] = true
                 } else {
+                    // Trigger animation if tabview equals the current weatherID
                     viewModel.weatherDataArray.indices.forEach { index in
                         animateStates[viewModel.weatherDataArray[index].id] = viewModel.weatherDataArray[index].id == newTab
-                        print("\(viewModel.weatherDataArray[index].id) == \(newTab)")
                     }
                 }
-
+                
             }
         }
         .ignoresSafeArea()
