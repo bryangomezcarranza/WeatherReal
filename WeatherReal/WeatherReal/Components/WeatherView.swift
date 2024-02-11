@@ -52,15 +52,15 @@ struct WeatherView: View {
                         Text(String(Int(cityWeather.main.temp.rounded())))
                             .font(.system(size: 200, weight: .bold))
                             .offset(y: animateStates[cityWeather.id] ?? false ? 0 : 200)
-                            .opacity(animateStates[cityWeather.id] ?? false ? 1.0 : 0.2)
-                            .animation(.spring().speed(0.8), value: animateStates[cityWeather.id])
+                            .opacity(animateStates[cityWeather.id] ?? false ? 1.0 : 0.0)
+                            .animation(.spring().speed(0.5), value: animateStates[cityWeather.id])
                         Image(systemName: "circle")
                             .resizable()
                             .frame(width: 30, height: 30)
                             .bold()
                             .offset(x: animateStates[cityWeather.id] ?? false ? 0 : -200)
                             .opacity(animateStates[cityWeather.id] ?? false  ? 1.0 : 0.0)
-                            .animation(.spring().speed(0.8), value: animateStates[cityWeather.id])
+                            .animation(.spring().speed(0.6), value: animateStates[cityWeather.id])
                     }
                     
                     // TODO: Make this its own view

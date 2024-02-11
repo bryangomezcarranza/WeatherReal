@@ -78,15 +78,15 @@ struct DefaultWeatherView: View {
                         Text(String(Int(viewModel.temp.rounded())))
                             .font(.system(size: 200, weight: .bold))
                             .offset(y: viewModel.animateStates[0] ?? false ? 0 : 200)
-                            .opacity(viewModel.animateStates[0] ?? false ? 1.0 : 0.2)
-                            .animation(.spring().speed(0.8), value: viewModel.animateStates[0])
+                            .opacity(viewModel.animateStates[0] ?? false ? 1.0 : 0.0)
+                            .animation(.spring().speed(0.5), value: viewModel.animateStates[0])
                         Image(systemName: "circle")
                             .resizable()
                             .frame(width: 30, height: 30)
                             .bold()
                             .offset(x: viewModel.animateStates[0] ?? false ? 0 : -200)
-                            .opacity(viewModel.animateStates[0] ?? false ? 1.0 : 0.2)
-                            .animation(.spring().speed(0.8), value: viewModel.animateStates[0])
+                            .opacity(viewModel.animateStates[0] ?? false ? 1.0 : 0.0)
+                            .animation(.spring().speed(0.6), value: viewModel.animateStates[0])
                     }
                     
                     // TODO: Make this its own view
