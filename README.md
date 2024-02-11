@@ -5,7 +5,7 @@ Weather App build with Swift UI.
 
 Uses new async await to fetch data from OpenWeatherAPI, and implements TipKit SDK. TabView implementation with 3D rotation effect. 
 
-<p align="middle">
-    <img src="/../main/Preview/WeatherRealGif.gif" width="315" height="515" />
+<p align="left">
+    <img src="/../main/Preview/WeatherRealGif.gif" width="215" height="415" />
 </p>
 
