@@ -15,6 +15,8 @@ struct AddPlaceView: View {
     
     @Binding var isSheetPresented: Bool
     
+    let searchTip: SearchTip
+    
     var body: some View {
            VStack {
                HStack {
@@ -26,6 +28,7 @@ struct AddPlaceView: View {
                        Image(systemName: "xmark")
                            .foregroundColor(.black)
                    }
+                   //.popoverTip(searchTip)
                }
                Text("Search for City")
                    .font(.title)
@@ -42,7 +45,7 @@ struct AddPlaceView: View {
                Button(action: {
                    // Perform the action to add the city
                    // You can use the newCity value here
-                   
+                   searchTip.invalidate(reason: .actionPerformed)
                    viewModel.fetchCitiesWithID(cityName: newCity)
                    isSheetPresented = false
                    
@@ -61,5 +64,5 @@ struct AddPlaceView: View {
    }
 
 #Preview {
-    AddPlaceView(viewModel: WeatherViewModel(), isSheetPresented: .constant(false))
+    AddPlaceView(viewModel: WeatherViewModel(), isSheetPresented: .constant(false), searchTip: SearchTip())
 }

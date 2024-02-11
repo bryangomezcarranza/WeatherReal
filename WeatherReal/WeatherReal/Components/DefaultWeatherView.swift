@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct DefaultWeatherView: View {
     
@@ -18,6 +19,7 @@ struct DefaultWeatherView: View {
     @State private var randomBackgroundColor: Color = Color.random()
     @State private var animate = false
     
+    let searchTip = SearchTip()
     var width = UIScreen.main.bounds.width
     
     var body: some View {
@@ -28,18 +30,19 @@ struct DefaultWeatherView: View {
                     Spacer()
                     HStack(alignment: .center) {
                         
-                        Button(action: {
+                        Button {
+                            print("Hey there")
                             isSheetPresented.toggle()
-                        }) {
+                        } label: {
                             Image(systemName: "magnifyingglass")
                                 .font(.title)
                                 .foregroundColor(.black)
                                 .padding(.leading)
                         }
-                        .frame(alignment: .leading)
-                        
-                        
+                        .popoverTip(searchTip)
+                        //TODO: TipKit has a bug where sometimes it makes the fullCoverSheet not work. So fix it.
                         Spacer()
+                        
                         Text(viewModel.place)
                             .font(.system(size: 40, weight: .bold, design: .rounded))
                         
@@ -48,6 +51,13 @@ struct DefaultWeatherView: View {
                             .font(.system(size: 40, weight: .bold, design: .rounded))
                     }
                     
+//                    
+//                    TipView(searchTip)
+//                        .frame(height: 50)
+//                        .padding()
+//                        .tipImageSize(CGSize(width: 25, height: 25))
+//
+                
                     
                     VStack {
                         Text(viewModel.todaysDate)

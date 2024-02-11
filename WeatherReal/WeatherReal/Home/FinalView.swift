@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct FinalView: View {
     
@@ -17,11 +18,18 @@ struct FinalView: View {
     @State private var selectedTab: Int = 0
     @State var animateStates: [Int: Bool] = [:]
     
+    let searchTip = SearchTip()
+    
     var body: some View {
         ScrollView(.init()) {
             TabView(selection: $selectedTab) {
                 DefaultWeatherView(viewModel: viewModel, isSheetPresented: $isSheetPresented).tag(0)
+                    .fullScreenCover(isPresented: $isSheetPresented) {
+                        AddPlaceView(viewModel: viewModel, isSheetPresented: $isSheetPresented, searchTip: searchTip)
+                            .presentationBackground(.ultraThinMaterial)
+                    }
                     .onAppear {
+                        isSheetPresented = false
                         viewModel.resetAnimationStateForTab(0)
                         viewModel.animateStates[0] = true
                     }
@@ -47,10 +55,7 @@ struct FinalView: View {
             }
         }
         .ignoresSafeArea()
-        .fullScreenCover(isPresented: $isSheetPresented) {
-            AddPlaceView(viewModel: viewModel, isSheetPresented: $isSheetPresented)
-                .presentationBackground(.ultraThinMaterial)
-        }
+
     }
 }
 
