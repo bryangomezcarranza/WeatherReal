@@ -1,5 +1,5 @@
 # WeatherReal
-Weather App build with Swift UI. 
+Weather App build with Swift UI using MVVM. 
 
 ## Overview
 
